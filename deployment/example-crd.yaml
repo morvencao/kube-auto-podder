@@ -1,0 +1,8 @@
+apiVersion: morven.me/v1
+kind: AutoPodder
+metadata:
+  name: example-autopodder
+spec:
+  podName: nginx
+  image: nginx
+  tag: alpine
