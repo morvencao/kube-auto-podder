@@ -2,11 +2,9 @@
 
 A simple kubernetes controller that generates pod automatically.
 
-**Note**: the source code is _verbosely_ commented, so the source is meant to be read and to teach
-
 ## What is this?
 
-An example of a custom Kubernetes controller that's only purpose is to watch for the creation, updating, or deletion of all custom resource of type `AutoPodder` (in the all namespaces). This repo is created to get a deep dive of how Kubernetes controllers work and interact with the cluster and resources.
+An example of a custom Kubernetes controller to watch for the creation, updating, or deletion of all custom resource of type `AutoPodder` (in the all namespaces) and create pods with `image` and `tag` specified within `AutoPodder`. This repo is created to get a deep dive of how Kubernetes controllers work and interact with the cluster and resources.
 
 ## Deployment
 
