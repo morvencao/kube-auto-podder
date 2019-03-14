@@ -148,16 +148,18 @@ func (controller *Controller) Run(threadiness int, stopCh <-chan struct{}) error
 	defer controller.workqueue.ShutDown()
 	
 	glog.Info("starting autopodder controller...")
-	
-	// wait for the caches to be synced before starting workers
+
+	// do the initial synchronization (one time) to populate resources before starting workers
 	glog.Info("waiting for informer caches to sync...")
 	if ok := cache.WaitForCacheSync(stopCh, controller.podSynced, controller.autopodderSynced); !ok {
+		utilruntime.HandleError(fmt.Errorf("Error syncing cache"))
 		return fmt.Errorf("failed to wait for caches to sync")
 	}
 	
 	glog.Info("starting workers...")
 	// launch threadiness number of workers to process AutoPodder resources
 	for i := 0; i < threadiness; i++ {
+		// run the runWorker method every second with a stop channel
 		go wait.Until(controller.runWorker, time.Second, stopCh)
 	}
 	
@@ -173,6 +175,7 @@ func (controller *Controller) Run(threadiness int, stopCh <-chan struct{}) error
 // workqueue.
 func (controller *Controller) runWorker() {
 	for controller.processNextWorkItem() {
+		glog.Info("worker start processing next item...")
 	}
 }
 
