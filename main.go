@@ -16,6 +16,8 @@ import (
 	"k8s.io/client-go/tools/clientcmd"
 )
 
+const NUM_OF_THREADS = 2
+
 var (
 	masterURL		string
 	kubeconfigfile	string
@@ -64,7 +66,7 @@ func main() {
 	apInformerFactory.Start(stopCh)
 	
 	// start the controller with two workers
-	if err := controller.Run(2, stopCh); err != nil {
+	if err := controller.Run(NUM_OF_THREADS, stopCh); err != nil {
 		glog.Fatalf("Error running controller: %s", err.Error())
 	}
 }
